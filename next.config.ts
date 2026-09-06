@@ -9,17 +9,22 @@ const CONTENT_SECURITY_POLICY = [
   `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  "img-src 'self' data: https://picsum.photos https://*.supabase.co",
+  // Real product images come from whatever domain each partner store/CDN
+  // uses (Lomadee aggregates many retailers) — can't allowlist them one by
+  // one, so any https image source is allowed.
+  "img-src 'self' data: https:",
   "connect-src 'self' https://*.supabase.co",
   "frame-ancestors 'none'",
 ].join("; ");
 
 const nextConfig: NextConfig = {
   images: {
+    // Same reasoning as img-src above: partner-store images come from
+    // unpredictable domains, so any https host is allowed here too.
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "**",
       },
     ],
   },
