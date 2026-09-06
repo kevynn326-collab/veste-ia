@@ -103,9 +103,14 @@ export function rankAndGroupProducts(
 export async function buildShortlist(intent: Intent, limit = 40): Promise<Product[]> {
   const provider = getProductProvider();
 
+  const keywords = [...intent.style, intent.occasion].filter(
+    (v): v is string => Boolean(v),
+  );
+
   const candidates = await provider.search({
     gender: intent.gender ?? undefined,
     maxPrice: intent.budget ?? undefined,
+    keywords: keywords.length > 0 ? keywords : undefined,
   });
 
   return rankAndGroupProducts(candidates, intent, limit);

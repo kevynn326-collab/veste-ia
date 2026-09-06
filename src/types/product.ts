@@ -36,4 +36,10 @@ export interface ProductFilter {
   style?: string[];
   colors?: string[];
   occasion?: string;
+  /**
+   * Free-text hints (style tags, occasion) for providers backed by a
+   * keyword-search API (e.g. Lomadee) rather than structured columns.
+   * DemoProductProvider ignores this — it already scores style locally.
+   */
+  keywords?: string[];
 }
